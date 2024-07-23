@@ -15,8 +15,18 @@ type CreateCustomerOpts struct {
 	CreatedBy uuid.UUID
 }
 
+type UpdateCustomerOpts struct {
+	CustomerID uuid.UUID
+	Firstname  string
+	Lastname   string
+	Mobile     string
+	Email      string
+	UpdatedBy  uuid.UUID
+}
+
 type CustomerService interface {
 	Create(opts CreateCustomerOpts) error
+	Update(opts UpdateCustomerOpts) error
 }
 
 type CreateLoanOpts struct {

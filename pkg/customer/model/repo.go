@@ -1,9 +1,15 @@
 package model
 
-import "context"
+import (
+	"context"
+
+	"github.com/google/uuid"
+)
 
 type CustomerRepo interface {
 	Create(customer Customer) error
+	FindByCustomerId(customerID uuid.UUID, ctx context.Context) (*Customer, error)
+	Update(custmer Customer) error
 }
 
 type LoanRepo interface {

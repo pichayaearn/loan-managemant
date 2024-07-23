@@ -64,6 +64,45 @@ func (m *Customer) Validate(additionalRules ...*validator.FieldRules) error {
 	return nil
 }
 
+func (c *Customer) SetFirstname(firstname string, updatedBy uuid.UUID) error {
+	c.firtname = firstname
+	c.updatedBy = updatedBy
+	c.updatedAt = time.Now()
+	if err := c.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (c *Customer) SetLastname(lastname string, updatedBy uuid.UUID) error {
+	c.lastname = lastname
+	c.updatedBy = updatedBy
+	c.updatedAt = time.Now()
+	if err := c.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (c *Customer) SetMobile(mobile string, updatedBy uuid.UUID) error {
+	c.mobile = mobile
+	c.updatedBy = updatedBy
+	c.updatedAt = time.Now()
+	if err := c.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (c *Customer) SetEmail(email string, updatedBy uuid.UUID) error {
+	c.email = email
+	c.updatedBy = updatedBy
+	c.updatedAt = time.Now()
+	if err := c.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
 func NewCustomer(opts CreateCustomerOpts) *Customer {
 	return &Customer{
 		firtname:  opts.Firstname,

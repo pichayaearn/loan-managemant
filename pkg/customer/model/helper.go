@@ -88,3 +88,39 @@ func PaymentFactory(opts PaymentFactoryOpts) (*Payment, error) {
 	}
 	return &payment, nil
 }
+
+type CustomerFactoryOpts struct {
+	Id        uuid.UUID
+	Firtname  string
+	Lastname  string
+	Mobile    string
+	Email     string
+	Status    string
+	CreatedAt time.Time
+	CreatedBy uuid.UUID
+	UpdatedAt time.Time
+	UpdatedBy uuid.UUID
+	DeletedAt time.Time
+	DeletedBy uuid.UUID
+}
+
+func CustomerFactory(opts CustomerFactoryOpts) (*Customer, error) {
+	customer := Customer{
+		id:        opts.Id,
+		firtname:  opts.Firtname,
+		lastname:  opts.Lastname,
+		mobile:    opts.Mobile,
+		email:     opts.Email,
+		status:    opts.Status,
+		createdAt: opts.CreatedAt,
+		createdBy: opts.CreatedBy,
+		updatedAt: opts.UpdatedAt,
+		updatedBy: opts.UpdatedBy,
+		deletedAt: opts.DeletedAt,
+		deletedBy: opts.DeletedBy,
+	}
+	if err := customer.Validate(); err != nil {
+		return nil, err
+	}
+	return &customer, nil
+}

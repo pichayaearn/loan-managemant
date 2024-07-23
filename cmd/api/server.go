@@ -75,6 +75,9 @@ func newServer(cfg *config.Config) *echo.Echo {
 	g.POST("/payment", route.CreatePayment(route.CreatePaymentCfg{
 		PaymentService: paymentService,
 	}), mw.Authenticate)
+	g.PATCH("", route.UpdateCustomer(route.UpdateCustomerCfg{
+		CustomerService: customerService,
+	}), mw.Authenticate)
 	return e
 
 }

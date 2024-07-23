@@ -2,6 +2,7 @@ package repo
 
 import (
 	"context"
+	"database/sql"
 	"errors"
 	"time"
 
@@ -44,6 +45,28 @@ func (cr CustomerRepo) Create(customer model.Customer) error {
 	return nil
 }
 
+func (cr CustomerRepo) FindByCustomerId(customerID uuid.UUID, ctx context.Context) (*model.Customer, error) {
+	cb := new(customerBun)
+	if err := cr.db.NewSelect().Model(cb).Where("customer_id = ?", customerID).Scan(ctx); err != nil {
+		if err == sql.ErrNoRows {
+			return nil, errors.New("get customer by customer_id not found")
+		}
+		return nil, errors.New("get customer by customer_id ")
+	}
+	return cb.toModel()
+}
+
+func (cr CustomerRepo) Update(custmer model.Customer) error {
+	cb := toCustomerBun(custmer)
+	if _, err := cr.db.NewUpdate().
+		Model(&cb).
+		WherePK().
+		Exec(context.Background()); err != nil {
+		return err
+	}
+	return nil
+}
+
 func toCustomerBun(customer model.Customer) customerBun {
 	return customerBun{
 		CustomerID: customer.ID(),
@@ -59,4 +82,21 @@ func toCustomerBun(customer model.Customer) customerBun {
 		DeletedAt:  customer.DeletedAt(),
 		DeletedBy:  customer.DeletedBy(),
 	}
+}
+
+func (cb customerBun) toModel() (*model.Customer, error) {
+	return model.CustomerFactory(model.CustomerFactoryOpts{
+		Id:        cb.CustomerID,
+		Firtname:  cb.Firstname,
+		Lastname:  cb.Lastname,
+		Mobile:    cb.Mobile,
+		Email:     cb.Email,
+		Status:    cb.Status,
+		CreatedAt: cb.CreatedAt,
+		CreatedBy: cb.CreatedBy,
+		UpdatedAt: cb.UpdatedAt,
+		UpdatedBy: cb.UpdatedBy,
+		DeletedAt: cb.DeletedAt,
+		DeletedBy: cb.DeletedBy,
+	})
 }
