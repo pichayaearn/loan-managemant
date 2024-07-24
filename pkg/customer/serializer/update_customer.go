@@ -25,6 +25,7 @@ func NewUpdateCustomerReq(updatedBy uuid.UUID) *UpdatedCustomerReq {
 func (req UpdatedCustomerReq) Validate() error {
 	return validation.ValidateStruct(&req,
 		validation.Field(&req.CustomerID, validation.Required, is.UUIDv4),
+		validation.Field(&req.Email, is.Email),
 		validation.Field(&req.UpdatedBy, validation.Required, is.UUIDv4),
 	)
 }
