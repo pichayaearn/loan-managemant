@@ -1,6 +1,7 @@
 package model
 
 import (
+	"context"
 	"time"
 
 	"github.com/google/uuid"
@@ -27,6 +28,7 @@ type UpdateCustomerOpts struct {
 type CustomerService interface {
 	Create(opts CreateCustomerOpts) error
 	Update(opts UpdateCustomerOpts) error
+	GetByID(customerID uuid.UUID, ctx context.Context) (*Customer, error)
 }
 
 type CreateLoanOpts struct {

@@ -5,6 +5,7 @@ import (
 	"errors"
 	"log"
 
+	"github.com/google/uuid"
 	"github.com/pichayaearn/loan-management/pkg/customer/model"
 )
 
@@ -31,7 +32,6 @@ func (cs CustomerService) Create(opts model.CreateCustomerOpts) error {
 }
 
 func (cs CustomerService) Update(opts model.UpdateCustomerOpts) error {
-	log.Printf("opts %+v", opts)
 	customer, err := cs.customerRepo.FindByCustomerId(opts.CustomerID, context.Background())
 	if err != nil {
 		return err
@@ -70,4 +70,14 @@ func (cs CustomerService) Update(opts model.UpdateCustomerOpts) error {
 	}
 	return nil
 
+}
+
+func (cs CustomerService) GetByID(customerID uuid.UUID, ctx context.Context) (*model.Customer, error) {
+	customer, err := cs.customerRepo.FindByCustomerId(customerID, ctx)
+	if err != nil {
+		return nil, err
+	}
+	log.Printf("customer %+v", customer)
+
+	return customer, nil
 }

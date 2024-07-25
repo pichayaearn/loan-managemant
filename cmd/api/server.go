@@ -66,6 +66,9 @@ func newServer(cfg *config.Config) *echo.Echo {
 	}))
 
 	g := e.Group("/customer")
+	g.GET("", route.GetCustomer(route.GetCustomerCfg{
+		CustomerService: customerService,
+	}), mw.Authenticate)
 	g.POST("", route.CreateCustomer(route.CreateCustomerCfg{
 		CustomerService: customerService,
 	}), mw.Authenticate)
